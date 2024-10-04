@@ -19,6 +19,11 @@ Type objective_function<Type>::operator() ()
 
 extern "C" {
 
+  double RealFromInteger(int x) {
+    return (x == NA_INTEGER) ? NA_REAL : x;
+  }
+
+  
   SEXP testValues(SEXP x){
 
     // Test1
@@ -29,6 +34,7 @@ extern "C" {
     Rcout << INTEGER(getListElement(x, "vec", &Rf_isNumeric   ))[0] << "\n";
     Rcout << REAL(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP))[0] << "\n";
     Rcout << (int)REAL(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP))[0] << "\n";
+    Rcout << RealFromInteger(NA_INTEGER) << ", " << RealFromInteger(INTEGER(getListElement(x, "vec", &Rf_isNumeric   ))[0]) << "\n";
     array<int> test_v_3(asArray<int>(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP)));
     Rcout << test_v_3(0,0) << "\n";
     // array<int> test_v_4(asArray<int>(getListElement(x, "vec", &Rf_isNumeric   )));
