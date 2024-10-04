@@ -1,0 +1,2 @@
+export("a")
+useDynLib(testIntNA, .registration = TRUE, .fixes = "C_")
