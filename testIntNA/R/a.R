@@ -3,3 +3,5 @@ a <- function() {
     .Call("testValues",list(vec=a0), PACKAGE="testIntNA")
 
 }
+
+

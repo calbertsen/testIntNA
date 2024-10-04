@@ -14,7 +14,16 @@ array<int> asIArray(SEXP x)
 template<class Type>
 Type objective_function<Type>::operator() ()
 {
-  return 0;
+  DATA_INTEGER(a);
+  Rcout << a << "\n";
+  DATA_IVECTOR(b);
+  Rcout << b(0) << "\n";
+  DATA_IMATRIX(d);
+  Rcout << d(0,0) << "\n";
+  DATA_IARRAY(e);
+  Rcout << e[0] << "\n";
+  PARAMETER(x);
+  return x;
 };
 
 extern "C" {
