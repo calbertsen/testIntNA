@@ -38,6 +38,7 @@ extern "C" {
     Rcout << test_v_5(0,0) << "\n";
 
     Rcout << NA_INTEGER << ", " << (double)NA_INTEGER << ", " << (int)((double)NA_INTEGER) << "\n";
+    Rcout << NA_REAL << ", " << (int)NA_REAL << ", " << (double)((int)NA_REAL) << "\n";
 
     
     return R_NilValue;
