@@ -55,7 +55,7 @@ extern "C" {
 
 #define CALLABLE(name) R_RegisterCCallable("testIntNa", #name, (DL_FUNC) &name)
 
-  void R_init_fishpopmix(DllInfo *dll) {
+  void R_init_testIntNa(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
     TMB_CCALLABLES("testIntNa");
