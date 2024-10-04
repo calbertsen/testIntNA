@@ -19,7 +19,7 @@ Type objective_function<Type>::operator() ()
 
 extern "C" {
 
-  void testValues(SEXP x){
+  SEXP testValues(SEXP x){
 
     // Test1
     // array<int> test_v_1(asArray<int>(getListElement(x, "vec", &Rf_isReal   )));
@@ -27,6 +27,7 @@ extern "C" {
     // array<int> test_v_2(asArray<int>(getListElement(x, "vec", &Rf_isInteger   )));
     // Rcout << test_v_2(0,0) << "\n";
     Rcout << INTEGER(getListElement(x, "vec", &Rf_isNumeric   ))[0] << "\n";
+    Rcout << REAL(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP))[0] << "\n";
     array<int> test_v_3(asArray<int>(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP)));
     Rcout << test_v_3(0,0) << "\n";
     // array<int> test_v_4(asArray<int>(getListElement(x, "vec", &Rf_isNumeric   )));
@@ -37,8 +38,9 @@ extern "C" {
     Rcout << test_v_5(0,0) << "\n";
 
     Rcout << NA_INTEGER << ", " << (double)NA_INTEGER << ", " << (int)((double)NA_INTEGER) << "\n";
+
     
-    return;
+    return R_NilValue;
     
   }
   
