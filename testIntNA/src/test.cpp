@@ -11,11 +11,57 @@ array<int> asIArray(SEXP x)
   return array<int>(y,d);
 }
 
+
+// From kaskr https://github.com/kaskr/adcomp/commit/5a6df30625f2e3c0579e983c4829b381cfd1df96
+/** \brief Helper class to handle NA integers passed from R */
+struct Rint {
+  int i;
+  inline Rint () { }
+  inline Rint (double x) : i(IntegerFromReal(x)) { }
+  inline operator int() const { return i; }
+  // From src/main/coerce.c
+  inline int IntegerFromReal(double x) {
+    using std::isnan;
+    if (ISNAN(x))
+      return NA_INTEGER;
+    else if (x >= INT_MAX+1. || x <= INT_MIN ) {
+      return NA_INTEGER;
+    }
+    return (int) x;
+  }
+};
+
+template<>
+inline vector<int> asVector(SEXP x) {
+  return asVector<Rint>(x).cast<int>();
+}
+
+template<>
+inline matrix<int> asMatrix(SEXP x) {
+  return asMatrix<Rint>(x).cast<int>();
+}
+
+namespace tmbutils {
+template<>
+inline array<int> asArray(SEXP x) {
+  array<Rint> tmp = asArray<Rint>(x);
+  return array<int>(tmp.vectorcopy.cast<int>(), tmp.dim);
+}
+}
+
+#define DATA_INTEGER2(name) int name(asVector<Rint>(     \
+getListElement(TMB_OBJECTIVE_PTR -> data,               \
+#name, &isNumericScalar))[0]);
+////
+
+
+
 template<class Type>
 Type objective_function<Type>::operator() ()
 {
   DATA_INTEGER(a);
   Rcout << a << "\n";
+  DATA_INTEGER2(a2);
   DATA_IVECTOR(b);
   Rcout << b(0) << "\n";
   DATA_IMATRIX(d);
@@ -40,7 +86,7 @@ extern "C" {
     // Rcout << test_v_1(0,0) << "\n";
     // array<int> test_v_2(asArray<int>(getListElement(x, "vec", &Rf_isInteger   )));
     // Rcout << test_v_2(0,0) << "\n";
-    Rcout << INTEGER(getListElement(x, "vec", &Rf_isNumeric   ))[0] << "\n";
+    Rcout << INTEGER(getListElement(x, "vec", &Rf_isNumeric   ))[0] << "\n";  
     Rcout << REAL(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP))[0] << "\n";
     Rcout << (int)REAL(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP))[0] << "\n";
     Rcout << RealFromInteger(NA_INTEGER) << ", " << RealFromInteger(INTEGER(getListElement(x, "vec", &Rf_isNumeric   ))[0]) << "\n";
@@ -58,6 +104,8 @@ extern "C" {
     Rcout << NA_INTEGER << ", " << (double)NA_INTEGER << ", " << (int)((double)NA_INTEGER) << "\n";
     Rcout << NA_REAL << ", " << (int)NA_REAL << ", " << (double)((int)NA_REAL) << "\n";
 
+int test99 = asVector<Rint>(getListElement(x,"vec", &isNumericScalar))[0];
+    Rcout << test99 << "\n";
     
     return R_NilValue;
     
