@@ -104,7 +104,7 @@ extern "C" {
     Rcout << NA_INTEGER << ", " << (double)NA_INTEGER << ", " << (int)((double)NA_INTEGER) << "\n";
     Rcout << NA_REAL << ", " << (int)NA_REAL << ", " << (double)((int)NA_REAL) << "\n";
 
-int test99 = asVector<Rint>(getListElement(x,"vec", &isNumericScalar))[0];
+int test99 = asVector<Rint>(getListElement(x,"vec", &isNumeric))[0];
     Rcout << test99 << "\n";
     
     return R_NilValue;
