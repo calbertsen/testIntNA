@@ -90,8 +90,8 @@ extern "C" {
     Rcout << REAL(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP))[0] << "\n";
     Rcout << (int)REAL(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP))[0] << "\n";
     Rcout << RealFromInteger(NA_INTEGER) << ", " << RealFromInteger(INTEGER(getListElement(x, "vec", &Rf_isNumeric   ))[0]) << "\n";
-    array<int> test_v_3(asArray<int>(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP)));
-    Rcout << test_v_3(0,0) << "\n";
+    //array<int> test_v_3(asArray<int>(Rf_coerceVector(getListElement(x, "vec", &Rf_isNumeric   ),REALSXP)));
+    //Rcout << test_v_3(0,0) << "\n";
     // array<int> test_v_4(asArray<int>(getListElement(x, "vec", &Rf_isNumeric   )));
     // Rcout << test_v_4(0,0) << "\n";
 
@@ -103,7 +103,7 @@ extern "C" {
 
     Rcout << NA_INTEGER << ", " << (double)NA_INTEGER << ", " << (int)((double)NA_INTEGER) << "\n";
     Rcout << NA_REAL << ", " << (int)NA_REAL << ", " << (double)((int)NA_REAL) << "\n";
-
+  
 int test99 = asVector<Rint>(getListElement(x,"vec", &isNumeric))[0];
     Rcout << test99 << "\n";
     
