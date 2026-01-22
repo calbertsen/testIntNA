@@ -95,15 +95,18 @@ extern "C" {
     // array<int> test_v_4(asArray<int>(getListElement(x, "vec", &Rf_isNumeric   )));
     // Rcout << test_v_4(0,0) << "\n";
 
-    array<int> test_v_5(asIArray(getListElement(x, "vec", &Rf_isInteger   )));
+    //array<int> test_v_5(asIArray(getListElement(x, "vec", &Rf_isInteger   )));
 
-    Rcout << test_v_5(0,0) << "\n";
+    //Rcout << test_v_5(0,0) << "\n";
 
     Rcout << CppAD::Integer(NA_REAL) << "\n";
 
     Rcout << NA_INTEGER << ", " << (double)NA_INTEGER << ", " << (int)((double)NA_INTEGER) << "\n";
     Rcout << NA_REAL << ", " << (int)NA_REAL << ", " << (double)((int)NA_REAL) << "\n";
-  
+
+int test98 = asVector<int>(getListElement(x,"vec", &isNumeric))[0];
+    Rcout << test98 << "\n";
+    
 int test99 = asVector<Rint>(getListElement(x,"vec", &isNumeric))[0];
     Rcout << test99 << "\n";
     
